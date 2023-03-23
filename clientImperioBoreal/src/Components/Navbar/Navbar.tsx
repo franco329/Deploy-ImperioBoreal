@@ -9,8 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { User } from "auth0";
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { CartContext } from '../../context/index'
-import { CartContextType } from '../../types.d'
-
+import { CartContextType } from '../../types.d';
 import style from './NavBar.module.css';
 
 //<------------------------------------------------------>

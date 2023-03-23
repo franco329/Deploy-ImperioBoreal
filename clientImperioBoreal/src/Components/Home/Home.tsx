@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   
 
   const postNewUser = async () => {
-    if(isAuthenticated) await axios.post('http://localhost:3001/users', user)
+    if(isAuthenticated) await axios.post('/users', user)
   }
   
   const dispatch = useDispatch();

@@ -14,6 +14,8 @@ import ShoppingCart from './Components/ShoppingCart/ShoppingCart'
 import useLocalStorage from './hooks/useLocalStorage';
 import { KEY_LOCAL_STORAGE } from './types.d';
 import Profile from './Components/Profile/Profile';
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3001/';
 //Si tienen problemas con el import en minuscula o mayuscula 
 //es por el cache de vscode, tienen que cerrar y volver a abrirlo
 

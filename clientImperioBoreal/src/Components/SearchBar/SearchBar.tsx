@@ -32,7 +32,7 @@ const SearchBar: React.FC<SearchBarProps> = ({setCurrentPage}) => {
     e.preventDefault();
     // Do something with the query here, like search for it
     // const response: AxiosResponse<Product[]> = await axios.get(
-    //   `http://localhost:3001/products?name=${query}`
+    //   `/products?name=${query}`
     // );
     // let productsFound = response.data;
     // setProducts(productsFound);

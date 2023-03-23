@@ -45,6 +45,7 @@ const Card: React.FC<CardProp> = ({
     }
     setAdded((prevValue) => !prevValue);
   };
+  
   return (
     <div className={style.card}>
       <h1>{descriptionName}</h1>
@@ -53,7 +54,7 @@ const Card: React.FC<CardProp> = ({
           <img
             src={
               image?.secure_url
-                ? image?.secure_url
+                ? image.secure_url
                 : category === "lapiz"
                 ? lapices
                 : category === "resmas"

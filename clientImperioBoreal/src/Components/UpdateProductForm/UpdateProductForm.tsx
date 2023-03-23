@@ -21,7 +21,7 @@ const UpdateProductForm: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get<OldProduct>(`http://localhost:3001/products/${id}`)
+      .get<OldProduct>(`/products/${id}`)
       .then((response) => {
         const oldProduct = response.data;
         setProduct(oldProduct);
@@ -59,7 +59,7 @@ const UpdateProductForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3001/products/${id}`, product);
+      await axios.put(`/products/${id}`, product);
       console.log(product);
       alert("Producto modificado");
       navigate("/dashboard");

@@ -111,7 +111,7 @@ const CreateProductForm: React.FC = () => {
         }
       };
       if (Object.keys(errors).length === 0) {
-        await axios.post("http://localhost:3001/products", dataToSend);
+        await axios.post("/products", dataToSend);
         console.log(product);
         alert("Producto creado");
         setProduct({

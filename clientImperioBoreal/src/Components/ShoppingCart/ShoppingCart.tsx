@@ -20,7 +20,7 @@ const ShoppingCart: React.FC = () => {
   const { user } = useAuth0();
 
   const getUser_id = async () => {
-    const response = await axios.get(`http://localhost:3001/users/${user?.email}`)
+    const response = await axios.get(`/users/${user?.email}`)
     const user_id = response.data._id
     setUser_id(user_id)
   }
@@ -40,7 +40,7 @@ const ShoppingCart: React.FC = () => {
       user: user_id,
       products: products.map(product => product.id)
     }
-    await axios.post("http://localhost:3001/carts", carrito);
+    await axios.post("/carts", carrito);
   }
 
   return (
