@@ -1,0 +1,123 @@
+.logoContainer {
+  -webkit-box-shadow: 0px 7px 19px 2px rgba(0, 0, 0, 0.27);
+  -moz-box-shadow: 0px 7px 19px 2px rgba(0, 0, 0, 0.27);
+  box-shadow: 0px 7px 19px 2px rgba(0, 0, 0, 0.27);
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  background-color: #fff;
+  border-radius: 12px;
+  border-top: 3px solid #0fb1bd;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+.dashboardTable {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: 2px solid black;
+  background: white;
+}
+
+.dashboardTable th,
+.dashboardTable td {
+  color: #07323e;
+  font-weight: 800;
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 2px solid #07323e;
+}
+
+.dashboardTable th {
+  background-color: #e1f1f3;
+  font-weight: bold;
+  color: #0fb1bd;
+}
+
+.dashboardTable tbody tr:hover {
+  background: #fbc316;
+  color: #fff;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+  background-color: white;
+  border-radius: 12px;
+  border-top: 3px solid #0fb1bd;
+  -webkit-box-shadow: 0px 7px 19px 2px rgba(0, 0, 0, 0.27);
+  -moz-box-shadow: 0px 7px 19px 2px rgba(0, 0, 0, 0.27);
+  box-shadow: 0px 7px 19px 2px rgba(0, 0, 0, 0.27);
+}
+
+.logoStyle {
+  margin: 0;
+  height: 180px;
+  width: 180px;
+}
+
+.searchbarContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 60px;
+}
+
+.backBtn {
+  position: absolute;
+  left: 20px;
+  color: #0fb1bd;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.backBtn:hover {
+  color: #13deec;
+}
+
+.crearProductoBtn {
+  background-color: transparent;
+  border: 2px solid #0fb1bd;
+  border-radius: 12px;
+  font-size: 40px;
+  color: #0fb1bd;
+  cursor: pointer;
+  float: right;
+  margin-right: 30px;
+  margin-top: 30px;
+}
+
+.crearProductoBtn:hover {
+  color: #13deec;
+  border: 2px solid #13deec;
+}
+
+.elimProdStyleBtn,
+.modProdStyleBtn {
+  color: black;
+  background-color: transparent;
+  border-radius: 12px;
+  border: 2px solid black;
+  font-weight: 800;
+}
+
+.modProdStyleBtn:hover {
+  background-color: #0fb1bd;
+  color: black;
+  cursor: pointer;
+}
+
+.elimProdStyleBtn:hover {
+  background-color: red;
+  color: black;
+  cursor: pointer;
+}
