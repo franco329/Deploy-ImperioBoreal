@@ -10,8 +10,8 @@ import lapices from "../../assets/lapices.jpg";
 import resmas from "../../assets/resmas.jpg";
 import { KEY_LOCAL_STORAGE } from "../../types.d";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import { api } from "../../axiosConfig";
 
 const ShoppingCart: React.FC = () => {
 
@@ -20,7 +20,7 @@ const ShoppingCart: React.FC = () => {
   const { user } = useAuth0();
 
   const getUser_id = async () => {
-    const response = await axios.get(`/users/${user?.email}`)
+    const response = await api.get(`/users/${user?.email}`)
     const user_id = response.data._id
     setUser_id(user_id)
   }
@@ -40,7 +40,7 @@ const ShoppingCart: React.FC = () => {
       user: user_id,
       products: products.map(product => product.id)
     }
-    await axios.post("/carts", carrito);
+    await api.post("/carts", carrito);
   }
 
   return (

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import style from "./UpdateProductForm.module.css";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ProductWithOutImage as Product, OldProduct, Errors } from '../../types.d';
 import { useAuth0 } from "@auth0/auth0-react";
+import { api } from "../../axiosConfig";
 
 const validate = (product: Product) => {
   // Validation logic here
@@ -20,7 +20,7 @@ const UpdateProductForm: React.FC = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    axios
+    api
       .get<OldProduct>(`/products/${id}`)
       .then((response) => {
         const oldProduct = response.data;
@@ -59,7 +59,7 @@ const UpdateProductForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.put(`/products/${id}`, product);
+      await api.put(`/products/${id}`, product);
       console.log(product);
       alert("Producto modificado");
       navigate("/dashboard");

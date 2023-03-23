@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { Dispatch } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { api } from '../axiosConfig';
 import { RootState } from './store';
 
 export const GET_PRODUCTS = "GET_PRODUCTS";
@@ -63,7 +63,7 @@ export type ProductActionTypes = GetProductsAction | GetUsersAction | GetDetailA
 
 export const getProducts = (): ThunkAction<void, RootState, null, ProductActionTypes> => {
   return async (dispatch: Dispatch<ProductActionTypes>) => {
-    const response = await axios.get<Product[]>("/products");
+    const response = await api.get<Product[]>("/products");
     const products = response.data;
     dispatch({ type: GET_PRODUCTS, payload: products });
   }
@@ -71,7 +71,7 @@ export const getProducts = (): ThunkAction<void, RootState, null, ProductActionT
 
 export const getUsers = () => {
   return async (dispatch: Dispatch<ProductActionTypes>) => {
-    const response = await axios.get<User[]>("/users");
+    const response = await api.get<User[]>("/users");
     const users = response.data;
     dispatch({ type: GET_USERS, payload: users });
   }
@@ -80,7 +80,7 @@ export const getUsers = () => {
 export const getDetail = (id: number | string) => {
   return async (dispatch: Dispatch<ProductActionTypes>) => {
     try {
-      const response = await axios.get<Product>(`/products/${id}`);
+      const response = await api.get<Product>(`/products/${id}`);
       const detail = response.data;
       dispatch({ type: GET_DETAIL, payload: detail });
     } catch (error) {

@@ -1,9 +1,9 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import style from "./Dashboard.module.css";
 import { Link } from "react-router-dom";
 import { ProductToDashboard as Product } from "../../types";
 import { useAuth0 } from "@auth0/auth0-react";
+import { api } from "../../axiosConfig";
 
 
 const Dashboard: React.FC = () => {
@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get<Product[]>(
+      const response = await api.get<Product[]>(
         "/products"
       );
       setProducts(response.data);
@@ -23,7 +23,7 @@ const Dashboard: React.FC = () => {
 
   const handleDelete = async (_id: string) => {
     try {
-      const deleteProduct = await axios.delete(
+      const deleteProduct = await api.delete(
         `/products/${_id}`
       );
       // Remove the deleted product from the state

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import style from "./CreateProductForm.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../Redux/store";
@@ -7,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { getProducts } from "../../Redux/actions";
 import { Errors, Product } from '../../types'
 import { useAuth0 } from "@auth0/auth0-react";
+import { api } from "../../axiosConfig";
 
 const validateInputs = (product: Product, touched: any): Errors => {
   const errors: Errors = {};
@@ -111,7 +111,7 @@ const CreateProductForm: React.FC = () => {
         }
       };
       if (Object.keys(errors).length === 0) {
-        await axios.post("/products", dataToSend);
+        await api.post("/products", dataToSend);
         console.log(product);
         alert("Producto creado");
         setProduct({
