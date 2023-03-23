@@ -4,7 +4,7 @@ require('dotenv').config();
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const CLUSTER = process.env.CLUSTER
-const PORT = process.env.PORT
+const DB_PORT = process.env.DB_PORT
 
 module.exports = async function connect() {
     try {
