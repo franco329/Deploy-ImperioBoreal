@@ -8,7 +8,7 @@ const DB_PORT = process.env.DB_PORT
 
 module.exports = async function connect() {
     try {
-        await mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${CLUSTER}:${DB_PORT}/test`, {
+        await mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${CLUSTER}:${DB_PORT}/`, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
