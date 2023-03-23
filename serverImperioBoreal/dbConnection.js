@@ -8,7 +8,7 @@ const PORT = process.env.PORT
 
 module.exports = async function connect() {
     try {
-        await mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${CLUSTER}:${PORT}/ImperioBoreal`, {
+        await mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${CLUSTER}:${PORT}/test`, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
