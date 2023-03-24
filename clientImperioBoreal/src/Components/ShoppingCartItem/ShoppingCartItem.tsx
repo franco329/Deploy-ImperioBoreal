@@ -1,17 +1,28 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { KEY_LOCAL_STORAGE } from "../../types.d";
+import { KEY_LOCAL_STORAGE } from "../../types";
 import style from "./ShoppingCartItem.module.css";
 
-const ShoppingCartItem = ({ descriptionName, category, price, id, image }) => {
+interface Props {
+    descriptionName: string;
+    category: string;
+    price: number;
+    id: number;
+    image: string;
+  }
 
-    const [productQuantity, setProductQuantity] = useState(1)
+  interface LocalStorage {
+    deleteItems: (id: number) => void;
+  }
+const ShoppingCartItem: React.FC<Props> = ({ descriptionName, category, price, id, image }) => {
 
-    const handleQuantityChange = (e) => {
-        setProductQuantity(e.target.value)
+    const [productQuantity, setProductQuantity] = useState<number>(1)
+
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setProductQuantity(Number(e.target.value))
     };
 
-    const { deleteItems } = useLocalStorage(KEY_LOCAL_STORAGE.KEY);
+    const { deleteItems }: LocalStorage = useLocalStorage(KEY_LOCAL_STORAGE.KEY);
 
     return (
         <tr className={style.trContainer}>
