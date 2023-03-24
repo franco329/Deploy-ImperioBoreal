@@ -14,7 +14,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       const response = await axios.get<Product[]>(
-        "http://localhost:3001/products"
+        "/products"
       );
       setProducts(response.data);
     }
@@ -24,7 +24,7 @@ const Dashboard: React.FC = () => {
   const handleDelete = async (_id: string) => {
     try {
       const deleteProduct = await axios.delete(
-        `http://localhost:3001/products/${_id}`
+        `/products/${_id}`
       );
       // Remove the deleted product from the state
       setProducts(products.filter((product) => product._id !== _id));

@@ -105,7 +105,7 @@ const CreateProductForm: React.FC = () => {
           dataToSend.append('image', (product.image))
         }
         
-        await axios.post("http://localhost:3001/products", dataToSend);
+        await axios.post("/products", dataToSend);
         console.log(product);
         alert("Producto creado");
         setProduct({

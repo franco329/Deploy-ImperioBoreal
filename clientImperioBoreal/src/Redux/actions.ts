@@ -69,7 +69,7 @@ export type ProductActionTypes = GetProductsAction | GetUsersAction | GetDetailA
 
 export const getProducts = (): ThunkAction<void, RootState, null, ProductActionTypes> => {
   return async (dispatch: Dispatch<ProductActionTypes>) => {
-    const response = await axios.get<Product[]>("http://localhost:3001/products");
+    const response = await axios.get<Product[]>("/products");
     const products = response.data;
     dispatch({ type: GET_PRODUCTS, payload: products });
   }
@@ -77,7 +77,7 @@ export const getProducts = (): ThunkAction<void, RootState, null, ProductActionT
 
 export const getUsers = () => {
   return async (dispatch: Dispatch<ProductActionTypes>) => {
-    const response = await axios.get<User[]>("http://localhost:3001/users");
+    const response = await axios.get<User[]>("/users");
     const users = response.data;
     dispatch({ type: GET_USERS, payload: users });
   }
@@ -86,7 +86,7 @@ export const getUsers = () => {
 export const getDetail = (id: number | string) => {
   return async (dispatch: Dispatch<ProductActionTypes>) => {
     try {
-      const response = await axios.get<Product>(`http://localhost:3001/products/${id}`);
+      const response = await axios.get<Product>(`/products/${id}`);
       const detail = response.data;
       dispatch({ type: GET_DETAIL, payload: detail });
     } catch (error) {
@@ -114,7 +114,7 @@ export const filterByCategory = (category: string) => {
 export const getCategories = (): ThunkAction<void, RootState, null, ProductActionTypes> => {
   return async (dispatch: Dispatch<ProductActionTypes>) => {
     try {
-      const { data } = await axios.get('http://localhost:3001/products/categories');
+      const { data } = await axios.get('/products/categories');
       dispatch({ type: GET_CATEGORIES, payload: data})
     } catch (error) {
       console.error(error);
