@@ -1,4 +1,4 @@
 declare module './ShoppingCartItem/ShoppingCartItem' {
-  const Loading: any;
+  const ShoppingCartItem: any;
   export default ShoppingCartItem;
 }
