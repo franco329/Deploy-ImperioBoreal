@@ -9,8 +9,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { User } from "auth0";
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { CartContext } from '../../context/index'
-import { CartContextType } from '../../types.d';
-import style from './Navbar.module.css';
+import { CartContextType } from '../../types.d'
+
+import style from './NavBar.module.css';
 
 //<------------------------------------------------------>
 
@@ -43,7 +44,7 @@ const NavBar: React.FC<NavBarProps> = ({ setCurrentPage }) => {
                 <button className={style.loginBtn}><i className="fa-solid fa-user"></i></button>
                 </Link>
                 {
-                    user?.email === "danielitodevita@gmail.com"
+                    user?.email === import.meta.env.VITE_EMAIL_ADMIN
                         ?
                         <Link to="/dashboard">
                             <button className={style.AdminDashboardButton}><i className="fa-solid fa-gear"></i></button>
@@ -62,9 +63,9 @@ const NavBar: React.FC<NavBarProps> = ({ setCurrentPage }) => {
                 {
                     isAuthenticated
                         ?
-                       <LogoutButton />
+                       <label>Cerrar sesion <LogoutButton /> </label>
                         :
-                       <LoginButton />
+                       <label>Iniciar sesion <LoginButton /> </label> 
                 }
 
             </div>

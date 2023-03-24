@@ -1,20 +1,18 @@
 .loginBtn{
     position: absolute;
     right: 60px;
-    top: 5px;
   
     background: none;
     border: none;
     outline: none;
-    font-size: 15px;
+    font-size: 20px;
     color: #771E62;
     padding: 12px;
     cursor: pointer;
 }
 
 .loginBtn i{
-    font-size: 18px;
-    padding: 5px;
+    font-size: 25px;
 }
 
 

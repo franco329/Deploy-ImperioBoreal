@@ -11,7 +11,7 @@ import Pagination from "../Pagination/Pagination"
 import Carousel from "../Carousel/Carousel"
 import { useAuth0 } from "@auth0/auth0-react";
 import { User } from "auth0";
-import { api } from "../../axiosConfig";
+import axios from "axios";
 
 const Home: React.FC = () => {
 
@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   
 
   const postNewUser = async () => {
-    if(isAuthenticated) await api.post('/users', user)
+    if(isAuthenticated) await axios.post('http://localhost:3001/users', user)
   }
   
   const dispatch = useDispatch();

@@ -6,7 +6,7 @@ const LogoutButton: React.FC = () => {
     const { logout } = useAuth0();
 
     return (
-        <button className={style.logoutBtn}  onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Cerrar sesión
+        <button className={style.logoutBtn}  onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
      <i className="fas fa-right-from-bracket"></i>
         </button>
     );
