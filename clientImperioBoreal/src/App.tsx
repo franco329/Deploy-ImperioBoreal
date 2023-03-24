@@ -15,7 +15,8 @@ import useLocalStorage from './hooks/useLocalStorage';
 import { KEY_LOCAL_STORAGE } from './types.d';
 import Profile from './Components/Profile/Profile';
 import { useAuth0 } from "@auth0/auth0-react";
-import Loading from "./Components/Loading/Loading"
+import Loading from './Components/Loading/Loading';
+
 //Si tienen problemas con el import en minuscula o mayuscula 
 //es por el cache de vscode, tienen que cerrar y volver a abrirlo
 
