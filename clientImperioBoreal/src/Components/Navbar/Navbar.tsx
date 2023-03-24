@@ -11,7 +11,7 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import { CartContext } from '../../context/index'
 import { CartContextType } from '../../types.d'
 
-import style from './NavBar.module.css';
+import style from './Navbar.module.css';
 
 //<------------------------------------------------------>
 
