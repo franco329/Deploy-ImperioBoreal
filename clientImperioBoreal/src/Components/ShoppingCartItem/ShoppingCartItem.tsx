@@ -1,20 +1,10 @@
 import React, { useState } from "react"
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { KEY_LOCAL_STORAGE } from "../../types";
+import { KEY_LOCAL_STORAGE, ProductToStorage } from "../../types";
 import style from "./ShoppingCartItem.module.css";
 
-interface Props {
-    descriptionName: string;
-    category: string;
-    price: number;
-    id: number;
-    image: string;
-  }
 
-  interface LocalStorage {
-    deleteItems: (id: number) => void;
-  }
-const ShoppingCartItem: React.FC<Props> = ({ descriptionName, category, price, id, image }) => {
+const ShoppingCartItem: React.FC<ProductToStorage> = ({ descriptionName, category, price, id, image }) => {
 
     const [productQuantity, setProductQuantity] = useState<number>(1)
 
@@ -22,12 +12,12 @@ const ShoppingCartItem: React.FC<Props> = ({ descriptionName, category, price, i
         setProductQuantity(Number(e.target.value))
     };
 
-    const { deleteItems }: LocalStorage = useLocalStorage(KEY_LOCAL_STORAGE.KEY);
+    const { deleteItems } = useLocalStorage(KEY_LOCAL_STORAGE.KEY);
 
     return (
         <tr className={style.trContainer}>
             <td>
-                <img className={style.imagen} src={image} />
+                <img className={style.imagen} src={image.secure_url} />
             </td>
             <td>{descriptionName}</td>
             <td>{category}</td>
