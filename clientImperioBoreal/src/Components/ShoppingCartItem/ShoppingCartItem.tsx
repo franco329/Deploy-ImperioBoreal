@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { KEY_LOCAL_STORAGE, ProductToStorage } from "../../types";
+import { KEY_LOCAL_STORAGE, ProductToStorage } from "../../types.d";
 import style from "./ShoppingCartItem.module.css";
 
 
