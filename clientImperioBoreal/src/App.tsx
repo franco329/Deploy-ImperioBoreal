@@ -17,7 +17,7 @@ import Profile from "./Components/Profile/Profile";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loading from './Components/Loading/Loading';
 import axios from 'axios';
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+axios.defaults.baseURL = "https://deploy-imperioboreal-production.up.railway.app";
 
 //Si tienen problemas con el import en minuscula o mayuscula 
 //es por el cache de vscode, tienen que cerrar y volver a abrirlo
