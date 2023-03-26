@@ -1,7 +1,6 @@
-import React from "react";
 import './styles.css';
 
-export default function Loading() {
+export default function Loading(): JSX.Element {
   return (
           <svg xmlns="http://www.w3.org/2000/svg" height="200px" width="200px" viewBox="0 0 200 200" className="pencil">
             <defs>
