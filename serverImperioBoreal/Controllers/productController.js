@@ -1,10 +1,11 @@
 const fs = require('fs-extra');
 const { uploadImage, deleteImage } = require('../cloudinary');
 const Product = require('../models/Product')
+const Category = require('../models/Category')
 
 const getProducts = async () => {
     try {
-        const products = await Product.find()
+        const products = await Product.find().populate('category')
         if (!products.length)
             throw new Error("No se encontraron productos en la base de datos")
         return products;
@@ -14,9 +15,19 @@ const getProducts = async () => {
 }
 
 const postNewProduct = async (product, imgPath) => {
+    const { descriptionName, category, price, stock } = product;
     try {
-        if (!product.descriptionName || !product.category || !product.price || !product.priceBusiness || !product.priceVAT || !product.priceVATBusiness) throw new Error("Falta información acerca del producto");
-        const newProduct = new Product(product)
+        if (!descriptionName || !category || !price || !stock) throw new Error('Falta información del producto!')
+        let categoryObj = await Category.findOne({ category })
+        if (!categoryObj) {
+            categoryObj = await Category.create({ category })
+        }
+        const newProduct = new Product({
+            descriptionName,
+            category: categoryObj._id,
+            price,
+            stock
+        })
         if (imgPath) {
             const result = await uploadImage(imgPath)
             newProduct.image = {
@@ -25,16 +36,18 @@ const postNewProduct = async (product, imgPath) => {
             }
             await fs.unlink(imgPath);
         }
-        await newProduct.save(newProduct)
-        return newProduct
+        const savedProduct = await newProduct.save()
+        return savedProduct
     } catch (error) {
-        return error.message;
+        await fs.unlink(imgPath);
+        throw new Error(error.message)
     }
 }
 
 const getProductById = async (id) => {
+    
     try {
-        const foundProduct = await Product.findById(id);
+        const foundProduct = await Product.findById(id).populate('category');
         if (!foundProduct) throw new Error('No hay producto con ese id');
         return foundProduct;
     } catch (error) {
@@ -42,9 +55,9 @@ const getProductById = async (id) => {
     }
 }
 
-const updateProduct = async (id, descriptionName, category, price, priceBusiness, priceVAT, priceVATBusiness) => {
+const updateProduct = async (id, descriptionName, category, price, stock) => {
     try {
-        const productToUpdate = await Product.findByIdAndUpdate(id, { descriptionName, category, price, priceBusiness, priceVAT, priceVATBusiness, }, { new: true })
+        const productToUpdate = await Product.findByIdAndUpdate(id, { descriptionName, category, price, stock}, { new: true }).populate('category')
         return productToUpdate
     } catch (error) {
         return error.message;
@@ -63,7 +76,7 @@ const deleteProduct = async (id) => {
 
 const getProductByName = async (name) => {
     try {
-        const responseDB = await Product.findOne({ descriptionName: name });
+        const responseDB = await Product.findOne({ descriptionName: name }).populate('category');
         if (!responseDB) throw new Error("No se encontro el producto buscado");
         return responseDB
     } catch (error) {
@@ -71,6 +84,16 @@ const getProductByName = async (name) => {
     }
 };
 
+const getProductCategories = async () => {
+    try {
+        const allCategories = await Category.find().populate('category');
+        if (!allCategories) throw new Error('No se encontraron categorías en la DB');
+        return allCategories;
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
 
 
-module.exports = { getProducts, postNewProduct, getProductById, deleteProduct, updateProduct, getProductByName }
+
+module.exports = { getProducts, postNewProduct, getProductById, deleteProduct, updateProduct, getProductByName, getProductCategories }

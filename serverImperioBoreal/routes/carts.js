@@ -1,12 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { addProductToCart } = require("../Controllers/addProductToCart");
+const { addProductToCart, addNewOrder } = require("../Controllers/addProductToCart");
 
 router.post("/", async (req, res) => {
     try {
-        const newCart = await addProductToCart(req.body) //de donde sacamos user (req.params.id?) y producs??
-        if (newCart.error) throw new Error(cart.error);
-        return res.status(201).json(newCart);
+        const newCart = await addProductToCart(req.body)
+        if (newCart.error) throw new Error(newCart.error);
+        if(newCart) { 
+            const newOrder = await addNewOrder(newCart)
+            return newOrder
+        }
+        if (newOrder.error) throw new Error(newOrder.error);
+        return res.status(201).json({ newCart, newOrder });
     } catch (error) {
         return res.status(400).send(error);
     }
