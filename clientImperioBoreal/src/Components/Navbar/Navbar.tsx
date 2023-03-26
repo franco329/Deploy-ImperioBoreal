@@ -10,7 +10,7 @@ import { User } from "auth0";
 import { CartContext } from "../../context/index";
 import { CartContextType } from "../../types.d";
 
-import style from "./NavBar.module.css";
+import style from "./Navbar.module.css";
 //<------------------COMPONENTE NAVBAR---------------------->
 
 interface NavBarProps {
