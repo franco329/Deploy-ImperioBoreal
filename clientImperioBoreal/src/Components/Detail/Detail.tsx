@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
-import { getDetail } from "../../Redux/actions";
+import { getDetail, getReviewsByProduct, resetDetail } from "../../Redux/actions";
 import style from "./Detail.module.css";
 import noImage from "../../assets/no-image.png";
 import { AppDispatch } from "../../Redux/store";
@@ -14,6 +14,14 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import Swal from "sweetalert2";
 import Reviews from "../Reviews/Reviews"
 
+const stars: any = {
+  1: '⭐ ☆ ☆ ☆ ☆',
+  2: '⭐⭐ ☆ ☆ ☆',
+  3: '⭐⭐⭐ ☆ ☆',
+  4: '⭐⭐⭐⭐ ☆',
+  5: '⭐⭐⭐⭐⭐'
+}
+
 const Detail: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { id } = useParams<DetailParams>();
@@ -24,11 +32,18 @@ const Detail: React.FC = () => {
     KEY_LOCAL_STORAGE.KEY
   );
 
+  const productReviews = useSelector((state: State) => state.productReviews)
+
   useEffect(() => {
+
     if (id) {
       dispatch(getDetail(id));
+      dispatch(getReviewsByProduct(id))
+      return () => {
+        dispatch(resetDetail())
+      }
     }
-  }, [dispatch, id]);
+  }, [id]);
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState<boolean>(validateProducst(id as string));
   const handlerAddProduct = () => {
@@ -42,7 +57,7 @@ const Detail: React.FC = () => {
         title: 'Agregado al carrito',
         showConfirmButton: false,
         timer: 550,
-        backdrop: false,      
+        backdrop: false,
       })
       setItmes({
         descriptionName,
@@ -57,9 +72,9 @@ const Detail: React.FC = () => {
   };
 
   const handleQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (parseInt(e.target.value) > (stock || 40) ) {
-         setQuantity((stock || 40))
-      } else setQuantity(parseInt(e.target.value))
+    if (parseInt(e.target.value) > (stock || 40)) {
+      setQuantity((stock || 40))
+    } else setQuantity(parseInt(e.target.value))
   }
   return (
     <>
@@ -74,33 +89,62 @@ const Detail: React.FC = () => {
       </div>
       <div className={style.card}>
         <div className={style.imageContainer}>
-          <img
-            src={image?.secure_url ? image?.secure_url : noImage}
+
+          {/* { */}
+            {/* image?.secure_url ? */}
+            <img
+            src={image?.secure_url ? image?.secure_url : noImage }
             alt={descriptionName}
             className={style.image}
-          />
+          /> 
+          {/* // : <span className="loader"></span> */}
+          {/* } */}
+          
         </div>
         <div className={style.content}>
           <h2 className={style.title}>{descriptionName}</h2>
           <p className={style.detail}>Categoría: {category?.categoryName}</p>
           <p className={style.detail}>Precio: ${price} ARS</p>
           <div className={style.pCantidad}>
-          <p>Cantidad</p>
+            <p>Cantidad</p>
           </div>
           <div className={style.btnStock}>
-              <input type='number' min='1' max={stock} value={quantity} onChange={handleQuantity}/>
+            <input type='number' min='1' max={stock} value={quantity} onChange={handleQuantity} />
           </div>
-            <button className={style.button} onClick={handlerAddProduct}>
-              <img src={added ? checkOut : addToCart} alt='Call to action' />
-            </button>
+          <button className={style.button} onClick={handlerAddProduct}>
+            <img src={added ? checkOut : addToCart} alt='Call to action' />
+          </button>
         </div>
       </div>
       <Link to={"/"}>
         <button className={style.Backbutton}>Volver</button>
       </Link>
       <div className={style.footerContainer}>
-      <div></div>
-      <Reviews />
+        <div></div>
+
+
+
+        <div className={style.container}>
+          { productReviews &&
+            productReviews.map((review) => {
+              return (
+                <div className={style.reviewCard}>
+                   <p>{review.userId.email}</p>
+                    <div className={style.infoContainer}>
+                         <p className={style.rating}>{stars[review.rating]}</p>
+                         <p>{review.createdAt}</p>
+                    </div>
+                    <div className={style.commentSection}>
+                      <p>{review.comment}</p>
+                    </div>
+                  </div>
+              )
+            })
+          }
+        </div>
+
+
+        <Reviews id={id as string}/>
         <Footer />
       </div>
     </>

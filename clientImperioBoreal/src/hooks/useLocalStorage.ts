@@ -18,7 +18,7 @@ const useLocalStorage = (KEY: string) => {
     return values;
   };
 
-  const setItmes = (values: Omit<Product,'stock'>) => {
+  const setItmes = (values: Product) => {
     const products = getLocalStorage();
     products.push(values);
     localStorage.setItem(KEY, JSON.stringify(products));
@@ -27,13 +27,13 @@ const useLocalStorage = (KEY: string) => {
 
   const loadPayment = () => {
      const values = getLocalStorage()
-     const total = values?.reduce((prev: number, current: Omit<Product, 'stock'>) => prev += (current?.price * (current?.quantity as number)), 0)
+     const total = values?.reduce((prev: number, current:Product) => prev += (current?.price * (current?.quantity as number)), 0)
      dispatch(getPaymentTotal(total))
   }
 
   const updateQuantity = (_id: string, qty: number) => {
     const values = getLocalStorage()
-    const index = values?.findIndex((item: Omit<Product, 'stock'>) => item?._id === _id)
+    const index = values?.findIndex((item: Product) => item?._id === _id)
     values[index].quantity = qty
     localStorage.setItem(KEY, JSON.stringify(values))
     loadPayment()
@@ -50,7 +50,8 @@ const useLocalStorage = (KEY: string) => {
   };
 
   const clearStorage = () => {
-    createStorage();
+     localStorage.setItem(KEY, '[]')
+     setTotalCart(0)
   };
 
   const validateProducst = (id: string): boolean => {

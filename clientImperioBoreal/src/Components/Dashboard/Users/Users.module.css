@@ -1,0 +1,101 @@
+.userCard {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem;
+  background-color: white;
+  opacity: 0.95;
+  justify-content: space-around;
+}
+
+.userTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-left: -50px;
+}
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-left: -180px;
+}
+
+.btnContainer {
+  display: flex;
+}
+
+.formUser {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+  gap: 1rem;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.formUser label {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.formUser input[type="radio"] {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.btnModificar {
+  display: inline-block;
+  background-color: #0fb1bd;
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btnModificar:hover {
+  background-color: #771e62;
+}
+
+.btnEliminar {
+  /* left: -500px; */
+  border: none;
+  color: white;
+  background-color: #f44336;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  /* height: 2rem; */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btnEliminar:hover {
+  background-color: #c62828;
+}
+
+.Backbutton {
+  display: inline-block;
+  background-color: #0fb1bd;
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.Backbutton:hover {
+  background-color: #771e62;
+}

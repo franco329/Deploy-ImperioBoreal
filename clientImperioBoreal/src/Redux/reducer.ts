@@ -1,4 +1,4 @@
-import { Product, State, User, UserOrder } from "../types.d";
+import { Product, State, User, UserOrder, Review } from "../types.d";
 import {
   GET_PRODUCTS,
   GET_USERS,
@@ -9,7 +9,11 @@ import {
   FILTER_BY_CATEGORY,
   GET_CATEGORIES,
   GET_PAYMENTOTAL,
-  GET_ORDERS_BY_USER
+  GET_ORDERS_BY_USER,
+  GET_ALL_ORDERS,
+  GET_REVIEWS_BY_PRODUCT,
+  RESET_REVIEWS_BY_PRODUCT,
+  RESET_DETAIL
 } from "./actions";
 
 interface GETPaymentTotal {
@@ -50,14 +54,33 @@ interface FilterByCategory {
   type: typeof FILTER_BY_CATEGORY;
   payload: string;
 }
-  interface GetCategories {
-    type: typeof GET_CATEGORIES;
-    payload: String[];
-  }
-  interface GetOrdersByUser {
-    type: typeof GET_ORDERS_BY_USER;
-    payload: UserOrder[];
-  }
+interface GetCategories {
+  type: typeof GET_CATEGORIES;
+  payload: String[];
+}
+interface GetOrdersByUser {
+  type: typeof GET_ORDERS_BY_USER;
+  payload: UserOrder[];
+}
+
+interface GetAllOrders {
+  type: typeof GET_ALL_ORDERS;
+  payload: UserOrder[];
+}
+interface GetReviewsByProduct {
+  type: typeof GET_REVIEWS_BY_PRODUCT,
+  payload: Review[]
+}
+
+interface ResetReviewsByProduct {
+  type: typeof RESET_REVIEWS_BY_PRODUCT,
+  payload: []
+}
+
+interface ResetDetail {
+  type: typeof RESET_DETAIL,
+  payload: {}
+}
 
 export type ProductActionTypes =
   | GetProductsAction
@@ -70,6 +93,10 @@ export type ProductActionTypes =
   | GETPaymentTotal
   | GetCategories
   | GetOrdersByUser
+  | GetAllOrders
+  | GetReviewsByProduct
+  | ResetReviewsByProduct
+  | ResetDetail
 
 const initialState: State = {
   products: [],
@@ -78,7 +105,9 @@ const initialState: State = {
   detail: {} as Product,
   categories: [],
   payment: 0,
-  ordersByUser: []
+  ordersByUser: [],
+  orders: [],
+  productReviews: []
 };
 
 const reducer = (
@@ -138,14 +167,39 @@ const reducer = (
         ),
       };
     case GET_CATEGORIES:
-        return {
-            ...state,
-            categories: action.payload
-        }
+      return {
+        ...state,
+        categories: action.payload
+      }
     case GET_ORDERS_BY_USER:
       return {
         ...state,
         ordersByUser: action.payload
+      }
+    case GET_ALL_ORDERS:
+      return {
+        ...state,
+        orders: action.payload
+      }
+    case GET_REVIEWS_BY_PRODUCT:
+      return {
+        ...state,
+        productReviews: action.payload
+      }
+    case GET_REVIEWS_BY_PRODUCT:
+      return {
+        ...state,
+        productReviews: action.payload
+      }
+    case RESET_REVIEWS_BY_PRODUCT:
+      return {
+        ...state,
+        productReviews: action.payload
+      }
+    case RESET_DETAIL:
+      return {
+        ...state,
+        detail: action.payload as Product
       }
     default:
       return { ...state };
