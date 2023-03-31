@@ -2,10 +2,14 @@ const fs = require('fs-extra');
 const { uploadImage, deleteImage } = require('../cloudinary');
 const Product = require('../models/Product')
 const Category = require('../models/Category')
+const Review = require('../models/Review')
+const Order = require('../models/Order')
 
 const getProducts = async () => {
     try {
-        const products = await Product.find().populate('category')
+        const products = await Product.find({stock: {
+            $gt: 0
+        }}).populate('category')
         if (!products.length)
             throw new Error("No se encontraron productos en la base de datos")
         return products;
@@ -65,10 +69,9 @@ const updateProduct = async (id, descriptionName, category, price, stock) => {
 }
 const deleteProduct = async (id) => {
     try {
-        const productToGetPublicID = await Product.findById(id)
-        const productToDelete = await Product.softDelete({ _id: id });
-        await deleteImage(productToGetPublicID.image.public_id);
-        return productToDelete
+        const deletedProduct = await Product.findByIdAndUpdate(id, {stock: 0}, {new: true})
+        await deleteImage(deletedProduct.image.public_id);
+        return deletedProduct
     } catch (error) {
         return error.message;
     }

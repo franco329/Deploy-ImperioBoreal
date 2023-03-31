@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const main = require('../utils')
 
 const getUsers = async () => {
     try {
@@ -10,7 +11,7 @@ const getUsers = async () => {
     }
 }
 
-const postNewUser = async (email) => {
+const postNewUser = async (email, nickname) => {
     try {
         const foundUser = await User.findOne({ email })
         if (foundUser) return foundUser;
@@ -18,6 +19,7 @@ const postNewUser = async (email) => {
             email,
             username: email
         })
+        await main(email, nickname)
         const savedUser = await newUser.save();
         return savedUser
     } catch (error) {
@@ -45,9 +47,15 @@ const getUserByMail = async (email) => {
     }
 }
 
-const updateUser = async (id, username, password, email) => {
+const updateUser = async (id, username, password, email, userRole) => {
     try {
-        const userToUpdate = await User.findByIdAndUpdate(id, { username, password, email }, { new: true })
+        let isAdmin
+        if(userRole === "admin"){
+            isAdmin = true
+        } else {
+            isAdmin = false
+        }
+        const userToUpdate = await User.findByIdAndUpdate(id, { username, password, email, isAdmin }, { new: true })
         return userToUpdate
     } catch (error) {
         return error.message;
