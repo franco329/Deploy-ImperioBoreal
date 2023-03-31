@@ -35,8 +35,8 @@ router.get('/id/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { email } = req.body
-    const newUser = await postNewUser(email);
+    const { email, nickname } = req.body
+    const newUser = await postNewUser(email, nickname);
     return res.status(201).json(newUser)
   } catch (error) {
     return res.status(400).send(error)
@@ -46,8 +46,8 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { username, password, email } = req.body
-    const userToUpdate = await updateUser(id, username, password, email);
+    const { username, password, email, userRole } = req.body
+    const userToUpdate = await updateUser(id, username, password, email, userRole);
     if (userToUpdate.error) throw new Error(userToUpdate.error);
     return res.status(201).json(userToUpdate);
   } catch (error) {
