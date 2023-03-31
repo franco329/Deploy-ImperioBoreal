@@ -25,6 +25,22 @@ export interface UserOrder {
   }
   orderId: string,
 }
+export interface Review { 
+  _id: string,
+  userId: {
+    _id: string,
+    email: string,
+    isAdmin: boolean,
+    isDeleted: false,
+  }
+  product: {
+   _id: string,
+   descriptionName: string
+  }
+  rating: string | number,
+  comment: string,
+  createdAt: string
+}
 export interface UpProductForm {
   descriptionName: string;
   category?: string | {}
@@ -37,7 +53,7 @@ export interface TouchedProductForm {
   category?: boolean;
   price: boolean;
   stock?: boolean,
-  image?: boolean; 
+  image?: boolean;
 }
 export interface ShoppingCartInteface
   extends Pick<Product, "descriptionName" | "category" | "price"> {
@@ -69,6 +85,8 @@ export interface User {
   password: string;
   email: string;
   isAdmin: boolean;
+  username?: string;
+  _id?: string;
 }
 export interface State {
   payment: number
@@ -78,4 +96,6 @@ export interface State {
   detail: Product;
   categories: String[];
   ordersByUser: UserOrder[],
+  orders: UserOrder[]
+  productReviews: Review[]
 }

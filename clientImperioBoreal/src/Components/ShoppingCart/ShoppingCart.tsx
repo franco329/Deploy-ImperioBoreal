@@ -10,42 +10,22 @@ import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 //EL QUE DESACOOMODA EL CART LO CAGO A PALOS
 
-const ShoppingCart: React.FC = () => {
-  const [user_id, setUser_id] = useState("");
+const Button: React.FC = () => {
   const payment = useSelector((state: State) => state.payment)
-  const { user } = useAuth0();
+  const [user_id, setUser_id] = useState("");
+
+
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0()
   const navigate = useNavigate();
+  const { clearStorage, loadPayment, getLocalStorage, setItmes } = useLocalStorage(KEY_LOCAL_STORAGE.KEY);
+
+  const products = getLocalStorage();
 
   const getUser_id = async () => {
     const response = await axios.get(`/users/${user?.email}`);
     const user_id = response.data._id;
     setUser_id(user_id);
   };
-
-  const countRepeatedProducts = (products: Product[]) => {
-    const productMap = new Map();
-    let count = 0;
-    for (const product of products) {
-      const productCount = productMap.get(product._id) || 0;
-      productMap.set(product._id, productCount + 1);
-      if (productCount === 1) {
-        count++;
-      }
-    }
-    return count + 1;
-  };
-
-  const { getLocalStorage, loadPayment } = useLocalStorage(KEY_LOCAL_STORAGE.KEY);
-
-  const products = getLocalStorage();
-
-  useEffect(() => {
-    loadPayment()
-  }, [])
-
-  useEffect(() => {
-    getUser_id();
-  }, [user]);
 
   const cartToDB = async (products: any, user_id: string) => {
     if (products.length) {
@@ -57,6 +37,15 @@ const ShoppingCart: React.FC = () => {
         })),
         totalAmount: payment
       };
+      const mpCart = {
+        products: products.map((product: any) => ({
+          title: product.descriptionName,
+          picture_url: product.image.secure_url,
+          quantity:product.quantity,
+          unit_price: product.price,
+        })),
+        totalAmount: payment
+      }
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -65,8 +54,14 @@ const ShoppingCart: React.FC = () => {
         timer: 1750,
         backdrop: false
       })
-      navigate("/");
-      await axios.post("/carts", carrito);
+      clearStorage()
+      /* navigate("/"); */
+     const response =  await axios.post("/carts", carrito);
+     localStorage.setItem("objectId", response.data);
+
+
+      let { data } = await axios.post('/mp', mpCart)
+      window.location.replace(data)
     } else {
       Swal.fire({
         icon: 'error',
@@ -75,6 +70,42 @@ const ShoppingCart: React.FC = () => {
       })
     }
   };
+
+  useEffect(() => {
+    loadPayment()
+  }, [])
+
+  useEffect(() => {
+    getUser_id();
+  }, [user])
+
+  if (isAuthenticated && payment > 0) {
+    return (
+      <button
+        className={style.btnComprar}
+        onClick={() => cartToDB(products, user_id)}
+      >
+        Comprar
+      </button>
+    )
+  } else if (!isAuthenticated && payment > 0) {
+    return (
+      <button
+        className={style.btnComprar}
+        onClick={() => loginWithRedirect()}
+      > Iniciar sesión </button>
+    )
+  }
+
+  return <p>No hay productos</p>
+}
+
+
+const ShoppingCart: React.FC = () => {
+  const payment = useSelector((state: State) => state.payment)
+  const { getLocalStorage } = useLocalStorage(KEY_LOCAL_STORAGE.KEY);
+
+  const products = getLocalStorage();
 
   return (
     <>
@@ -107,7 +138,7 @@ const ShoppingCart: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product: Omit<Product, 'stock'>) => (
+            {products.map((product: Product) => (
               <ShoppingCartItem
                 key={product._id}
                 descriptionName={product.descriptionName}
@@ -116,6 +147,7 @@ const ShoppingCart: React.FC = () => {
                 _id={product._id}
                 image={product.image}
                 quantity={product.quantity}
+                stock={product.stock}
               />
             ))}
           </tbody>
@@ -123,12 +155,7 @@ const ShoppingCart: React.FC = () => {
         <div className={style.tablaComprar}>
           <h2>Total:</h2>
           <p>${payment}</p>
-          <button
-            className={style.btnComprar}
-            onClick={() => cartToDB(products, user_id)}
-          >
-            Comprar
-          </button>
+          <Button />
         </div>
       </div>
     </>

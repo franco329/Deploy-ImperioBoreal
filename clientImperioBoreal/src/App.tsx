@@ -15,11 +15,15 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import { KEY_LOCAL_STORAGE } from "./types.d";
 import Profile from "./Components/Profile/Profile";
 import { useAuth0 } from "@auth0/auth0-react";
-import Loading from './Components/Loading/Loading';
-import axios from 'axios';
-axios.defaults.baseURL = "https://deploy-imperioboreal-production.up.railway.app";
+import OurTeam from "./Components/OurTeam/OurTeam";
+import Loading from "./Components/Loading/Loading";
+import axios from "axios";
+import Orders from "./Components/Dashboard/Orders/Orders";
+import Users from "./Components/Dashboard/Users/Users";
+import PaymentStatus from "./Components/PaymentStatus/PaymentStatus";
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
-//Si tienen problemas con el import en minuscula o mayuscula 
+//Si tienen problemas con el import en minuscula o mayuscula
 //es por el cache de vscode, tienen que cerrar y volver a abrirlo
 
 function App() {
@@ -46,11 +50,15 @@ function App() {
       <Route path='/' element={<Home />} />
       <Route path='/shoppingcart' element={<ShoppingCart />}></Route>
       <Route path='/dashboard' element={<Dashboard />} />
+      <Route path='/dashboard/orders' element={<Orders />} />
+      <Route path='/dashboard/users' element={<Users />} />
       <Route path='/productform' element={<CreateProductForm />} />
       <Route path='/updateform/:id' element={<UpdateProductForm />} />
       <Route path='/products/:id' element={<Detail />} />
       <Route path='/profile' element={<Profile />} />
       <Route path='/aboutUs' element={<AboutUs />} />
+      <Route path='/ourTeam' element={<OurTeam />} />
+      <Route path='/paymentStatus' element={<PaymentStatus />} />
       <Route path='*' element={<NotFound />} />
     </Routes>
   );
