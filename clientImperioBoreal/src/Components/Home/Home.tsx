@@ -74,10 +74,10 @@ const Home: React.FC = () => {
   const handleClick = (event: React.MouseEvent<HTMLLIElement>): void => {
     setCurrentPage(Number(event.currentTarget.id));
   };
-  const pages = [];
+  const pages: number[] = [];
 
-  for (let i = 0; i < Math.ceil(allProducts?.length / itemsPerPage); i++) {
-    pages.push(i+1);
+  for (let i = 1; i < Math.ceil(allProducts?.length / itemsPerPage); i++) {
+    pages.push(i);
   }
 
   const indexOfLastItem = currentPage * itemsPerPage;
