@@ -21,7 +21,8 @@ import axios from "axios";
 import Orders from "./Components/Dashboard/Orders/Orders";
 import Users from "./Components/Dashboard/Users/Users";
 import PaymentStatus from "./Components/PaymentStatus/PaymentStatus";
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+axios.defaults.baseURL =
+  "https://deploy-imperioboreal-production.up.railway.app/";
 
 //Si tienen problemas con el import en minuscula o mayuscula
 //es por el cache de vscode, tienen que cerrar y volver a abrirlo
