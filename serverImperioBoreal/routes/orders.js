@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const {getAllOrders, getOrderByUserId, setOrderStatus, deleteOrder} = require("../Controllers/orderController");
 const mongoose = require('mongoose');
+const Order = require('../models/Order');
+const Product = require('../models/Product')
 
 router.get('/', async (req, res, next) => {
     try {
@@ -73,14 +75,24 @@ router.get('/user/:userId', async (req, res, next) => {
 router.put('/:orderId', async (req, res, next) => {
     try {
         const { orderId } = req.params;
-        const { status } = req.body;
+        const { putStatus } = req.body;
+        if (putStatus === 'Paid') {
+            const order = await Order.find({ _id: orderId }).populate('cart').select('cart')
+            const { cart } = order[0] 
+            cart.products.map(async (el) => {
+                const product = await Product.findById(el.product)
+                const stock = product.stock - el.quantity
+                await Product.findByIdAndUpdate(el.product, { stock }, { new: true })
+            })
+        }
         const isValid = mongoose.isValidObjectId(orderId)
         if(isValid) {
-        await setOrderStatus(orderId, status)
+        await setOrderStatus(orderId, putStatus)
         if(setOrderStatus.error) throw new Error(setOrderStatus.error)
         return res.status(200).json('Estado de orden de compra actualizada')
         }
     } catch (error) {
+        console.log(error.message)
         res.status(404).send(error.message)
     }
 })
