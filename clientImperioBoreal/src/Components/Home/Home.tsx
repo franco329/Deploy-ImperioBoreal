@@ -60,14 +60,13 @@ const Home: React.FC = () => {
   const allProducts = useSelector((state: RootState) => state.filteredProducts);
 
   const categories = useSelector((state: RootState) => state.categories);
-  // ============================================================================================
   // ================ Pagination =============================================
   const [currentItems, setCurrentItems] = useState<Array<any>>();
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(9);
 
-  const [pageNumberLimit, setPageNumberLimit] = useState<number>(2);
+  const [pageNumberLimit, setPageNumberLimit] = useState<number>(5);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState<number>(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState<number>(0);
 
@@ -110,10 +109,13 @@ const Home: React.FC = () => {
       setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
     }
   };
-  const handlePrevbtn = () => {
+  const handlePrevbtn = (): void => {
     setCurrentPage(currentPage - 1);
 
-    if ((currentPage - 1) % pageNumberLimit === 0) {
+    if (
+      (currentPage - 1) % pageNumberLimit === 0 &&
+      maxPageNumberLimit > pageNumberLimit
+    ) {
       setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
       setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
     }
@@ -122,8 +124,7 @@ const Home: React.FC = () => {
   if (pages.length > maxPageNumberLimit) {
     pageIncrementBtn = (
       <li className={stylePag.hellipBtn} onClick={handleNextbtn}>
-        {" "}
-        &hellip;{" "}
+        &hellip;
       </li>
     );
   }
@@ -131,32 +132,17 @@ const Home: React.FC = () => {
   if (minPageNumberLimit >= 1) {
     pageDecrementBtn = (
       <li className={stylePag.hellipBtn} onClick={handlePrevbtn}>
-        {" "}
-        &hellip;{" "}
+        &hellip;
       </li>
     );
   }
 
-  // const [currentPage, setCurrentPage] = useState<number>(1);
-  // const [productsPerPage, setProductsPerPage] = useState<number>(10);
-  // const indexOfLastProduct = currentPage * productsPerPage;
-  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  // const currentProducts = allProducts.slice(
-  //   indexOfFirstProduct,
-  //   indexOfLastProduct
-  // );
-
-  // const paginado = (pageNumber: number) => {
-  //   setCurrentPage(pageNumber);
-  // };
-
-  const [selectedOption, setSelectedOption] = useState<string>("");
-  const [selectedOptionOrder, setSelectedOptionOrder] = useState<string>("");
+  const [selectedOption, setSelectedOption] = useState<string>("default");
+  const [selectedOptionOrder, setSelectedOptionOrder] =
+    useState<string>("default");
 
   useEffect(() => {
     setCurrentItems(allProducts?.slice(indexOfFirsttItem, indexOfLastItem));
-    setSelectedOption("default");
-    setSelectedOptionOrder("default");
     postNewUser();
     dispatch(ResetReviewsByProduct());
   }, [allProducts, indexOfFirsttItem, indexOfLastItem]);
@@ -217,14 +203,26 @@ const Home: React.FC = () => {
         </button>
       </div>
       <Carousel />
-      <div className='card-container'>
-        <CardContainer productsFiltered={currentItems} />
-      </div>
       <Pagination
-        // productsPerPage={productsPerPage}
-        // allProducts={allProducts.length}
-        // paginado={paginado}
-        // currentPage={currentPage}
+        handleNextbtn={handleNextbtn}
+        handlePrevbtn={handlePrevbtn}
+        currentPage={currentPage}
+        pages={pages}
+        pageDecrementBtn={pageDecrementBtn}
+        pageIncrementBtn={pageIncrementBtn}
+        renderPageNumbers={renderPageNumbers}
+      />
+      {currentItems?.length === 0 ? (
+        <div className={style.searchError}>
+          No existe el producto solicitado!
+        </div>
+      ) : (
+        <div className='card-container'>
+          <CardContainer productsFiltered={currentItems} />
+        </div>
+      )}
+
+      <Pagination
         handleNextbtn={handleNextbtn}
         handlePrevbtn={handlePrevbtn}
         currentPage={currentPage}

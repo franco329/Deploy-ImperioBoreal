@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
-import style from "../Reviews/Reviews.module.css";
+import style from "./Reviews.module.css";
 import axios from "axios";
 import { CartContextType, State } from "../../types.d";
 import { CartContext } from "../../context";
 import { useSelector } from "react-redux";
 import { validate } from "../CreateProductForm/validate";
+import Swal from "sweetalert2";
 
 interface ReviewProps {
   id: string;
@@ -42,7 +43,6 @@ const Reviews: React.FC<ReviewProps> = ({ id }) => {
       productId: id,
       userId,
     });
-    console.log(review);
     setErrors(
       validateInputs({
         ...review,
@@ -54,6 +54,14 @@ const Reviews: React.FC<ReviewProps> = ({ id }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if (!userId) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Debes estar registrado para dejar un comentario!",
+        });
+        return;
+      }
       if (review.rating !== 0) {
         const { data } = await axios.post("/reviews", review);
         window.location.reload();
