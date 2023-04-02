@@ -41,7 +41,7 @@ const OrderItem: React.FC<OrderProps> = ({
 
   const handleSubmit = async (id: string) => {
     try {
-      await axios.put(`/orders/${id}`, { status: newStatus });
+      await axios.put(`/orders/${id}`, { putStatus: newStatus });
       dispatch(getAllOrders());
     } catch (error) {
       console.error(error);
@@ -199,9 +199,8 @@ const Orders: React.FC = () => {
           key={number}
           id={String(number)}
           onClick={handleClick}
-          className={`${stylePag.number} ${
-            isActive ? stylePag.active : undefined
-          }`}
+          className={`${stylePag.number} ${isActive ? stylePag.active : undefined
+            }`}
         >
           {number}
         </li>
