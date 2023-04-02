@@ -75,7 +75,7 @@ const Home: React.FC = () => {
   };
   const pages: number[] = [];
 
-  for (let i = 1; i <= Math.ceil(allProducts?.length / itemsPerPage); i++) {
+  for (let i = 1; i < Math.ceil(allProducts?.length / itemsPerPage); i++) {
     pages.push(i);
   }
 
