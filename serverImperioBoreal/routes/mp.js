@@ -20,9 +20,9 @@ router.post("/", async (req, res, next) => {
       };
     }),
     back_urls: {
-      success: "https://imperioboreal.vercel.app/paymentStatus",
-      pending: "https://imperioboreal.vercel.app/paymentStatus",
-      failure: "https://imperioboreal.vercel.app/paymentStatus",
+      success: "https://www.Google.com",
+      pending: "https://www.Google.com",
+      failure: "https://www.Google.com",
     },
   };
   mercadopago.preferences
