@@ -18,7 +18,13 @@ interface NavBarProps {
 }
 
 const NavBar: React.FC<NavBarProps> = ({ setCurrentPage }) => {
-  const { totalCart, user: loggedUser, setUser } = useContext(CartContext) as CartContextType;
+  const {
+    totalCart,
+    user: loggedUser,
+    setUser,
+  } = useContext(CartContext) as CartContextType;
+  console.log(loggedUser);
+
   const { user, isAuthenticated } = useAuth0<User>();
 
   return (
